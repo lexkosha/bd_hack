@@ -1,6 +1,5 @@
 import random
 
-
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 
 from datacenter.models import Commendation, Lesson, Schoolkid
@@ -25,7 +24,7 @@ def create_commendation(full_name, subject):
         subject__title=subject
     ).first()
 
-    commend_text = [
+    commend_texts = [
         'Сказано здорово – просто и ясно!', 'С каждым разом у тебя получается всё лучше!', 'Страна гордится тобой',
         'Ты будущие России!', 'Не зря тебя мама родила!', f'Ты добился великих достижений по предмету {subject}']
     random_commend = random.choice(commend_text)
