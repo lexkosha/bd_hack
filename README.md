@@ -6,6 +6,10 @@
 Скрипт кладем в каталог с `manage.py`. Запускаем  в проекте`python manage.py sell` импортируем скрипт `from add_praise import create_commendation`.<br> 
 Добавляем похвалу  `create_commendation(full_name='Фролов Иван', subject='Музыка')` указываем обязательно аргументы ФИО `full_name` и предмет `subject`.
 
+Функция fix_marks(obj) принимает обект queryset, исправляет оценки на 5.
+
+Функция remove_chastisements(schoolkid) принимает строку 'Голубев Феофан', удаляяет все замечания.
+
 ## Цели проекта
 
 Код написан для Вани :) чтоб была возможность добавлять похвалу в электронном днивнике.
