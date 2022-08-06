@@ -29,7 +29,7 @@ def create_commendation(full_name, subject):
             'Сказано здорово – просто и ясно!', 'С каждым разом у тебя получается всё лучше!', 'Страна гордится тобой',
             'Ты будущие России!', 'Не зря тебя мама родила!', f'Ты добился великих достижений по предмету {subject}'
         ]
-        random_commend = random.choice(commend_text)
+        random_commend = random.choice(commend_texts)
 
         Commendation.objects.create(
             text=random_commend, created=lesson.date,
