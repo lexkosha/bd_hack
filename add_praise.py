@@ -20,6 +20,10 @@ def create_commendation(full_name, subject):
             group_letter=student.group_letter,
             subject__title=subject
         ).first()
+    except ObjectDoesNotExist:
+        print('ФИО не найдены в базе')
+    except MultipleObjectsReturned:
+        print(f'Найдено более одного {full_name}, добавьте фамилию и отчество')
 
         commend_text = [
             'Сказано здорово – просто и ясно!', 'С каждым разом у тебя получается всё лучше!', 'Страна гордится тобой',
@@ -31,10 +35,6 @@ def create_commendation(full_name, subject):
             text=random_commend, created=lesson.date,
             schoolkid_id=student.pk, subject_id=lesson.subject_id,
             teacher_id=lesson.teacher.pk)
-    except ObjectDoesNotExist:
-        print('ФИО не найдены в базе')
-    except MultipleObjectsReturned:
-        print(f'Найдено более одного {full_name}, добавьте фамилию и отчество')
 
 
 def remove_chastisements(schoolkid):
