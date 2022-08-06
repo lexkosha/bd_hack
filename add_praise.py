@@ -14,7 +14,7 @@ def create_commendation(full_name, subject):
     :return:
     """
     try:
-        student = Schoolkid.objects.filter(full_name__contains=full_name).get()
+        student = Schoolkid.objects.get(full_name__contains=full_name)
         lesson = Lesson.objects.filter(
             year_of_study=student.year_of_study,
             group_letter=student.group_letter,
@@ -38,7 +38,7 @@ def create_commendation(full_name, subject):
 
 
 def remove_chastisements(schoolkid):
-    student = Schoolkid.objects.filter(full_name__contains='Голубев Феофан').get()
+    student = Schoolkid.objects.get(full_name__contains='Голубев Феофан')
     remarks = Chastisement.objects.filter(schoolkid__id=student.id)
     remarks.delete()
 
