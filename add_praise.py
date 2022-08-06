@@ -1,8 +1,9 @@
 import random
 
+
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 
-from datacenter.models import Commendation, Lesson, Schoolkid
+from datacenter.models import Commendation, Lesson, Schoolkid, Chastisement
 
 
 def create_commendation(full_name, subject):
@@ -13,24 +14,36 @@ def create_commendation(full_name, subject):
     :return:
     """
     try:
-        student = Schoolkid.objects(full_name__contains=full_name).get()
+        student = Schoolkid.objects.filter(full_name__contains=full_name).get()
+        lesson = Lesson.objects.filter(
+            year_of_study=student.year_of_study,
+            group_letter=student.group_letter,
+            subject__title=subject
+        ).first()
+
+        commend_text = [
+            'Сказано здорово – просто и ясно!', 'С каждым разом у тебя получается всё лучше!', 'Страна гордится тобой',
+            'Ты будущие России!', 'Не зря тебя мама родила!', f'Ты добился великих достижений по предмету {subject}'
+        ]
+        random_commend = random.choice(commend_text)
+
+        Commendation.objects.create(
+            text=random_commend, created=lesson.date,
+            schoolkid_id=student.pk, subject_id=lesson.subject_id,
+            teacher_id=lesson.teacher.pk)
     except ObjectDoesNotExist:
         print('ФИО не найдены в базе')
     except MultipleObjectsReturned:
         print(f'Найдено более одного {full_name}, добавьте фамилию и отчество')
-    lesson = Lesson.objects.filter(
-        year_of_study=student.year_of_study,
-        group_letter=student.group_letter,
-        subject__title=subject
-    ).first()
-
-    commend_texts = [
-        'Сказано здорово – просто и ясно!', 'С каждым разом у тебя получается всё лучше!', 'Страна гордится тобой',
-        'Ты будущие России!', 'Не зря тебя мама родила!', f'Ты добился великих достижений по предмету {subject}']
-    random_commend = random.choice(commend_text)
-    Commendation.objects.create(
-        text=random_commend, created=lesson.date,
-        schoolkid_id=student.pk, subject_id=lesson.subject_id,
-        teacher_id=lesson.teacher.pk)
 
 
+def remove_chastisements(schoolkid):
+    student = Schoolkid.objects.filter(full_name__contains='Голубев Феофан').get()
+    remarks = Chastisement.objects.filter(schoolkid__id=student.id)
+    remarks.delete()
+
+
+def fix_marks(schoolkid):
+    for mark in schoolkid:
+        mark.points = 5
+        mark.save()
