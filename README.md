@@ -3,7 +3,11 @@
 Скрипт `add_praise.py` добавляет похвалу по заданным параметрам ФИО и уроку.<br> Скрипт добавит похвалу из списка `commend_texts = []`.
 
 ## Пример запуска 
-Скрипт кладем в каталог с `manage.py`. Запускаем  в проекте```python manage.py sell``` импортируем скрипт
+Скрипт кладем в каталог с `manage.py`. Запускаем  в проекте
+```python 
+python manage.py sell
+```
+импортируем скрипт
 ```python 
 from add_praise import create_commendation
 ```
